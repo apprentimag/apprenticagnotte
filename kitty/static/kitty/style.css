@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: sans-serif;
+}
+
+a {
+    color: #bb4c30;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+li {
+    padding-bottom: 5px;
+}
+
+form.form-inline {
+    display: inline;
+}
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 5px 10px;
+
+    background-color: #ddd;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+input[type="text"] {
+    width: 250px;
+}
+input[type="number"] {
+    width: 125px;
+}
+input[type="submit"] {
+    padding: 5px 10px;
+
+    background-color: #ddd;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+input[type="submit"].input-cancel {
+    background-color: transparent;
+    border: 1px solid #ddd;
+}
+textarea {
+    min-width: 400px;
+    min-height: 100px;
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group {
+    padding-bottom: 10px;
+}
+.form-group label {
+    display: inline-block;
+    width: 150px;
+    margin-top: 8px;
+
+    vertical-align: top;
+}
+.form-group.actions {
+    padding-left: 150px;
+}
+
+.errors {
+    margin-bottom: 15px;
+    padding: 15px;
+
+    color: #fff;
+
+    background-color: #d7263d;
+}
+
+.app-header {
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    background-color: #eee;
+    border-bottom: 5px solid #ddd;
+
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.app-content {
+    min-height: calc(100vh - 113px);
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.app-footer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    background-color: #eee;
+    border-top: 1px solid #ddd;
+}
+
+.budget-description {
+    margin-bottom: 25px;
+    padding: 25px;
+
+    white-space: pre;
+
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

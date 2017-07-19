@@ -1,0 +1,66 @@
+{% extends "kitty/__base.html" %}
+
+{% block title %}Administration de {{ budget.name }} ⋅ {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>Administration de {{ budget.name }}</h1>
+
+    <ul>
+        <li>
+            Adresse aministration (NE LA PARTAGEZ PAS) :
+            {{ request.scheme }}://{{ request.get_host }}{% url 'kitty:budget/admin/detail' budget.id budget.admin_token %}
+        </li>
+        <li>
+            Adresse de contribution :
+            {{ request.scheme }}://{{ request.get_host }}{% url 'kitty:budget/detail' budget.id %}
+        </li>
+    </ul>
+
+    {% if error_message %}
+        <div class="errors">
+            <strong>{{ error_message }}</strong>
+        </div>
+    {% endif %}
+
+    <form action="{% url 'kitty:budget/admin/update' budget.id budget.admin_token %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="budget-name">Nom *</label>
+            <input type="text" name="name" id="budget-name" required value="{{ budget.name }}" />
+        </div>
+
+        <div class="form-group">
+            <label for="budget-description">Description</label>
+            <textarea type="text" name="description" id="budget-description">{{ budget.description }}</textarea>
+        </div>
+
+        <div class="form-group actions">
+            <input type="submit" value="Enregistrer" />
+        </div>
+    </form>
+
+    <ul>
+        {% for contribution in budget.financialcontribution_set.all %}
+            <li>
+                {{ contribution.amount }}&nbsp;€ par
+                {% if contribution.contributor %}
+                    {{ contribution.contributor }}
+                {% else %}
+                    <em>Anonyme</em>
+                {% endif %}
+
+                {% if not contribution.is_confirmed %}
+                    <form class="form-inline" action="{% url 'kitty:financial_contribution/admin/confirm' contribution.id budget.admin_token %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Confirmer la contribution" />
+                    </form>
+                {% endif %}
+                <form class="form-inline" action="{% url 'kitty:financial_contribution/admin/cancel' contribution.id budget.admin_token %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="input-cancel" value="Annuler la contribution" />
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="{% static 'kitty/style.css' %}" />
+        <title>{% block title %}Apprenticagnotte{% endblock %}</title>
+    </head>
+    <body>
+        <div class="app">
+            <div class="app-header">
+                <div class="container">
+                    <a href="{% url 'kitty:budget/list' %}">Apprenticagnotte</a>
+                </div>
+            </div>
+
+            <div class="app-content">
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+            <div class="app-footer">
+                <div class="container">
+                    <a href="https://github.com/apprentimag/apprenticagnotte">Contribuez au développement</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

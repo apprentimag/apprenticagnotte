@@ -1,0 +1,12 @@
+{% extends "kitty/__base.html" %}
+
+{% block title %}Liste des budgets ⋅ {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form action="{% url 'kitty:budget/create' %}" method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="name" id="budget-name" required />
+        <input type="submit" value="Créer un budget" />
+    </form>
+{% endblock %}

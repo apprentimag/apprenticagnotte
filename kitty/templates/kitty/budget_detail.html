@@ -1,0 +1,54 @@
+{% extends "kitty/__base.html" %}
+
+{% block title %}{{ budget.name }} ⋅ {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{{ budget.name }}</h1>
+
+    {% if budget.description %}
+        <div class="budget-description">{{ budget.description }}</div>
+    {% endif %}
+
+    {% if error_message %}
+        <div class="errors">
+            <strong>{{ error_message }}</strong>
+        </div>
+    {% endif %}
+
+    <form action="{% url 'kitty:financial_contribution/create' budget.id %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="financial-contribution-amount">Montant *</label>
+            <input type="number" name="amount" id="financial-contribution-amount" required />
+        </div>
+
+        <div class="form-group">
+            <label for="financial-contribution-contributor">Votre nom</label>
+            <input type="text" name="contributor" id="financial-contribution-contributor" />
+        </div>
+
+        <div class="form-group actions">
+            <input type="submit" value="Contribuer" />
+        </div>
+    </form>
+
+    <p>Total des contributions&nbsp;: <b>{{ budget.total_contributions }}&nbsp;€</b><p>
+
+    <ul>
+        {% for contribution in budget.financialcontribution_set.all %}
+            <li>
+                {{ contribution.amount }}&nbsp;€ par
+                {% if contribution.contributor %}
+                    {{ contribution.contributor }}
+                {% else %}
+                    <em>Anonyme</em>
+                {% endif %}
+
+                {% if contribution.is_confirmed %}
+                    (<em>contribution confirmée</em>)
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
