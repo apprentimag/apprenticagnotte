@@ -1,7 +1,5 @@
 {% extends "kitty/__base.html" %}
 
-{% block title %}Liste des budgets ⋅ {{ block.super }}{% endblock %}
-
 {% block content %}
     <form action="{% url 'kitty:budget/create' %}" method="POST">
         {% csrf_token %}
