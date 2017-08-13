@@ -12,21 +12,34 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+import dj_database_url
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'development')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cepntac%23fex*$lv!lrg(tenp3+09zbw^pksa7*o@n#2d2u2m'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+if DJANGO_ENVIRONMENT == 'production':
+    SECRET_KEY = os.environ.get('SECRET_KEY', '')
+    DEBUG = False
+    ALLOWED_HOSTS = [os.environ.get('HOSTNAME', '')]
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_HSTS_PRELOAD = True
+else:
+    SECRET_KEY = 'cepntac%23fex*$lv!lrg(tenp3+09zbw^pksa7*o@n#2d2u2m'
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -75,15 +88,19 @@ WSGI_APPLICATION = 'apprenticagnotte.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+if DJANGO_ENVIRONMENT == 'production':
+    DATABASE_URL = os.environ.get('DATABASE_URL', '')
+    if DATABASE_URL != '':
+        DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+else:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
     }
-}
 
 
 # Password validation
